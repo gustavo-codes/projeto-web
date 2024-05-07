@@ -4,7 +4,7 @@ Breve descrição do que o seu projeto faz.
 
 ## :technologist: Membros da equipe
 
-Gabriel Dias - 540357 - CC
+Gabriel Dias - 540357 - CC \n
 Gustavo Reginaldo - 536187 - CC
 
 ## :people_holding_hands: Papéis ou tipos de usuário da aplicação
