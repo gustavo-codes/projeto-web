@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { axios } from '../api'
 
-defineProps<{ name: string }>()
+const props = defineProps<{id:number}>()
 
-const count = ref(0)
-const name = ref('Gustavo')
-const bio = ref('Developer and computer science student by the federal university of Quixada')
+const name = ref('')
+const bio = ref('')
+
+async function getUser() {
+    await axios.get(`/users/${props.id}`).then((response)=>{
+        name.value = response.data["username"]
+        bio.value = response.data["bio"]
+    })
+}
+
+getUser()
+
 </script>
 
 <template>

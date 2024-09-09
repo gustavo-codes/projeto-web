@@ -1,26 +1,35 @@
 <script setup lang="ts">
-import Tracker from './components/Tracker.vue'
-import Profile from './components/Profile.vue'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { axios } from './api'
+
+
+const req = ref({})
+const route = useRoute()
+const nome = ref<string|null>('')
+
+console.log(route.fullPath)
+
+async function getProfiles(){
+  await axios.get('/users').then((response)=>req.value = response.data)
+}
+
+getProfiles()
+
+
 </script>
 
 <template>
-  <Profile></Profile>
-  <Tracker title="Comida"></Tracker>
-  <Tracker title="Programar"></Tracker>
-  <Tracker title="Dormir 8h"></Tracker>
+  <header>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/comunity">Comunidades</RouterLink>
+    <RouterLink to="/login">Login</RouterLink>
+    <RouterLink to="/register">Registrar</RouterLink>
+    <RouterLink to="/profile">Perfil</RouterLink>
+  </header>
+  <RouterView></RouterView>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+  
 </style>
