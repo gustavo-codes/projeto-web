@@ -3,11 +3,12 @@ import { ref } from 'vue'
 import { axios } from '../api'
 import Tracker from '../components/Tracker.vue'
 import Profile from '../components/Profile.vue'
+import { useUserStore } from '../store/useStore'
 
 const loading = ref(true)
 const ident = ref(1)
 const error = ref<Error>()
-const jwt = sessionStorage.getItem("jwt")
+const jwt = useUserStore().jwt
 
 async function getUser() {
     try{

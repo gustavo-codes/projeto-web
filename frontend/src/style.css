@@ -11,4 +11,28 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
 }
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+button{
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+input{
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+a{
+  text-decoration: none;
+}
+
