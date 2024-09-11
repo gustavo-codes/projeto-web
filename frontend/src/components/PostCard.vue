@@ -8,11 +8,12 @@ const title = ref('')
 const text = ref('')
 const auth = ref('')
 const time = ref('')
+const community = ref('')
 
 async function getPost() {
     const {data} = await axios.get(`/posts/${props.id}`,{
       params:{
-        populate:'author'
+        populate:['author','community']
       }
     })
         //Transformer API do strapi n funcionando
@@ -20,6 +21,7 @@ async function getPost() {
         text.value = data.data.attributes.text
         time.value = data.data.attributes.createdAt
         auth.value = data.data.attributes.author.data.attributes.username
+        community.value = data.data.attributes.community.data.attributes.name
     
 }
 
@@ -30,19 +32,21 @@ getPost()
 <template>
   <main>
     <section>
-      <h3>{{ title }} · {{ time }}</h3>
-      <h4>por: {{ auth }}</h4>
+      <h3>{{ title }} <span class="date"> · {{ time }}</span></h3>
+      <h4>por: <span>{{ auth }}</span>  de: <span>{{ community }}</span></h4>
+      <p>{{ text }}</p>
     </section>
-    <p>{{ text }}</p>
   </main>
 </template>
 
 <style scoped>
 main{
-  border-radius: 10px;
-  box-shadow:  0px 0px 10px   #2a1630;
+  border-radius: 5px;
   margin: 20px;
+  padding: 20px;
+  border:1px solid rebeccapurple;
   background-color: #141414;
+  max-width: 60vw;
 }
 ul{
   display: flex;
@@ -72,7 +76,13 @@ section h3{
 .check{
   background-color: green;
 }
-
+.date{
+  color: rgba(109, 109, 109, 0.536);
+  font-size: 15px;
+}
+section span{
+  color: rgba(156, 110, 255, 0.536);
+}
 main h2{
   margin-left: 45px;
 }

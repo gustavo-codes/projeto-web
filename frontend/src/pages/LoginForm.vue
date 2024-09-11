@@ -28,7 +28,7 @@ async function autenticate() {
         
         const res = await axios.get('/users/me', {
             headers: {
-                Authorization: `Bearer ${jwt}`
+                'Authorization': `Bearer ${jwt}`
             }
         })
 

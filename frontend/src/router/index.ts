@@ -1,17 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePublic from '../pages/HomePublic.vue';
-import ComunityPublic from '../pages/ComunityPublic.vue';
+import CommunityPublic from '../pages/CommunityPublic.vue';
 import LoginForm from '../pages/LoginForm.vue';
 import RegisterForm from '../pages/RegisterForm.vue';
 import ProfilePublic from '../pages/ProfilePublic.vue';
 import HomeAdmin from '../pages/HomeAdmin.vue';
 import { useUserStore } from '../store/useStore';
+import CommunityCard from '../components/CommunityCard.vue';
+import CommunitySingle from '../pages/CommunitySingle.vue';
 
 
 
 const routes = [
     {path:'/', name:'home',component:HomePublic},
-    {path:'/comunity', name:'comunity',component:ComunityPublic},
+    {path:'/community', name:'community',component:CommunityPublic},
+    {path:'/community/:id',component:CommunitySingle},
     {path:'/login', name:'login',component:LoginForm},
     {path:'/register', name:'register',component:RegisterForm},
     {path:'/profile',name: 'profile',component:ProfilePublic},

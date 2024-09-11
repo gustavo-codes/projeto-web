@@ -362,6 +362,63 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCommunityCommunity extends Schema.CollectionType {
+  collectionName: 'communities';
+  info: {
+    singularName: 'community';
+    pluralName: 'communities';
+    displayName: 'Community';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+        maxLength: 32;
+      }>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 256;
+      }>;
+    cape: Attribute.Media<'images'>;
+    adms: Attribute.Relation<
+      'api::community.community',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    members: Attribute.Relation<
+      'api::community.community',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    posts: Attribute.Relation<
+      'api::community.community',
+      'oneToMany',
+      'api::post.post'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::community.community',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::community.community',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiPostPost extends Schema.CollectionType {
   collectionName: 'posts';
   info: {
@@ -381,6 +438,11 @@ export interface ApiPostPost extends Schema.CollectionType {
       'api::post.post',
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    community: Attribute.Relation<
+      'api::post.post',
+      'manyToOne',
+      'api::community.community'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -806,6 +868,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::post.post'
     >;
+    admcommunities: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::community.community'
+    >;
+    communities: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::community.community'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -833,6 +905,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::community.community': ApiCommunityCommunity;
       'api::post.post': ApiPostPost;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;

@@ -25,14 +25,17 @@ getPosts()
 
 <template>
   <main>
-    <PostCard v-for="post in posts":id="post.id"></PostCard>
+    <section>
+      <PostCard v-for="post in posts":id="post.id"></PostCard>
+    </section>
   </main>
 </template>
 
 <style scoped>
   main{
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;  
   }
 </style>

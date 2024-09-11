@@ -37,7 +37,7 @@ function logout(){
   <header>
     <section class="applink">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/comunity">Comunidades</RouterLink>
+      <RouterLink to="/community">Comunidades</RouterLink>
     </section>
     <section class="loginlink">
       <h3 v-if="logged">{{ nome }}</h3>
