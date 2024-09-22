@@ -8,6 +8,7 @@ import router from './router';
 
 const req = ref({})
 const route = useRoute()
+
 const nome = computed(()=>{
   return userStore.username
 })
@@ -25,10 +26,7 @@ async function getProfiles(){
 getProfiles()
 
 function logout(){
-  userStore.jwt = ''
-  userStore.username = ''
-  router.push('/')
-  router.go(1)
+  userStore.logout()
 }
 
 </script>

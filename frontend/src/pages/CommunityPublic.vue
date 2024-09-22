@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router'
 const communities = ref([] as Community[])
 const route = useRouter()
 
+
 async function getComunities() {
     try{
       const { data } = await axios.get('/communities',{

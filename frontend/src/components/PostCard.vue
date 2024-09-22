@@ -1,40 +1,40 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { axios } from '../api'
+import type{ User,Community } from '../types';
+import { RefSymbol } from '@vue/reactivity';
 
-const props = defineProps<{ id: number }>()
+const props = defineProps<{ id: number, title:string,text:string,time:string,auth:User,community:Community}>()
 
-const title = ref('')
-const text = ref('')
-const auth = ref('')
+
 const time = ref('')
-const community = ref('')
+time.value = convert_date(props.time)
 
-async function getPost() {
-    const {data} = await axios.get(`/posts/${props.id}`,{
-      params:{
-        populate:['author','community']
-      }
-    })
-        //Transformer API do strapi n funcionando
-        title.value = data.data.attributes.title
-        text.value = data.data.attributes.text
-        time.value = data.data.attributes.createdAt
-        auth.value = data.data.attributes.author.data.attributes.username
-        community.value = data.data.attributes.community.data.attributes.name
-    
+
+
+function convert_date(old_date: string):string{
+
+  const year = old_date.slice(0,4);
+
+  const month = old_date.slice(5,7);
+
+  const day = old_date.slice(8,10);
+
+  const hour = old_date.slice(11,16);
+
+  return `${day}/${month}/${year} ${hour}`;
+
 }
 
-getPost()
 
 </script>
 
 <template>
   <main>
     <section>
-      <h3>{{ title }} <span class="date"> · {{ time }}</span></h3>
-      <h4>por: <span>{{ auth }}</span>  de: <span>{{ community }}</span></h4>
-      <p>{{ text }}</p>
+      <h3>{{ props.title }} <span class="date"> · {{  time }}</span></h3>
+      <h4>por: <span>{{ props.auth.username }}</span>  de: <span>{{ props.community.name }}</span></h4>
+      <p>{{props.text }}</p>
     </section>
   </main>
 </template>

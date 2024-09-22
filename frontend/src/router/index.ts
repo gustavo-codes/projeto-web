@@ -8,12 +8,24 @@ import HomeAdmin from '../pages/HomeAdmin.vue';
 import { useUserStore } from '../store/useStore';
 import CommunityCard from '../components/CommunityCard.vue';
 import CommunitySingle from '../pages/CommunitySingle.vue';
+import CommunityAdm from '../pages/admin/CommunityAdm.vue';
+import CommunityForm from '../pages/admin/CommunityForm.vue';
 
 
 
 const routes = [
     {path:'/', name:'home',component:HomePublic},
     {path:'/community', name:'community',component:CommunityPublic},
+    {path:'/community/adm', name:'communityadm',component:CommunityAdm,
+      meta:{
+        requiresAuth:true
+      }
+    },
+    {path:'/community/create', name:'communitycreate',component:CommunityForm,
+      meta:{
+        requiresAuth:true
+      }
+    },
     {path:'/community/:id',component:CommunitySingle},
     {path:'/login', name:'login',component:LoginForm},
     {path:'/register', name:'register',component:RegisterForm},
@@ -38,6 +50,9 @@ router.beforeEach(async (to, from) => {
       // ❗️ Avoid an infinite redirect
       to.name == 'profile'
     ) {
+      return '/login'
+    }
+    if(to.meta.requiresAuth && !useStore.authenticated){
       return '/login'
     }
     if(useStore.jwt && (to.name == 'login' || to.name == 'register')){

@@ -29,16 +29,25 @@ async function autenticate() {
         const res = await axios.get('/users/me', {
             headers: {
                 'Authorization': `Bearer ${jwt}`
+            },
+            params: {
+                populate: 'role'
             }
         })
 
-        userStore.username =  res.data.username
-        userStore.jwt = jwt    
+        console.log(res.data)
+        userStore.authenticaded(res.data, jwt)   
+
+        if(userStore.role == 'admin'){
+            router.push('/community/adm')
+        }else{
+            router.push('/profile')
+        }
         
-        router.push('/profile')
         router.go(1)
 
     }catch(e){
+        console.error(e)
         error.value = e as Error
     }finally{
         loading.value = true

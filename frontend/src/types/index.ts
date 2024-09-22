@@ -2,29 +2,27 @@ export type Post = {
         id:number,
         title: string,
         text:string,
-        data:[]
+        publishedAt:string,
+        community:Community,
+        auth:User,
     
 }
 
 export type Community = {
         id:number,
-        attributes:{
-            description:string,
-            name:string,
-            posts:{
-                data:Post[]
-            }
-            adms:{
-                data:User[]
-            }
-        }
+        description:string,
+        name:string,
+        posts:Post[]
+        adms:User[]
+        
 }
 
 export type User = {
-        attributes:{
-            username:string
-            posts:{
-                data:Post[]
-            }
-        }   
+        username:string
+        id:Number
+        email:string
+        role:{
+            name:string
+        }
+        
 }
