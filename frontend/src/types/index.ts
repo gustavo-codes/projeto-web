@@ -14,6 +14,7 @@ export type Community = {
         name:string,
         posts:Post[]
         adms:User[]
+        members:User[]
         
 }
 

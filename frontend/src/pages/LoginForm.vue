@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Tracker from '../components/Tracker.vue'
-import Profile from '../components/Profile.vue'
 import { axios } from '../api'
 import {useUserStore} from '../store/useStore'
+import type {User} from '../types'
 
 const ident = ref('')
 const pass = ref('')
@@ -34,9 +33,16 @@ async function autenticate() {
                 populate: 'role'
             }
         })
-
-        console.log(res.data)
-        userStore.authenticaded(res.data, jwt)   
+        const user:User ={
+            id:res.data.id,
+            email:res.data.email,
+            username:res.data.username,
+            role:{
+                name : res.data.role.name
+            }
+        } 
+        console.log(user)
+        userStore.authenticaded(user, jwt)   
 
         if(userStore.role == 'admin'){
             router.push('/community/adm')

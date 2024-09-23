@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import _ from 'lodash'
 import { ref,defineProps,computed } from 'vue'
 import { axios } from '../api'
-import Tracker from '../components/Tracker.vue'
-import Profile from '../components/Profile.vue'
 import PostCard from '../components/PostCard.vue'
 import type {Post, Community, User} from '../types'
 import { useUserStore } from '../store/useStore'
@@ -14,32 +13,32 @@ const thisCommunity = ref<Community>({
     description:'',
     name:'',
     posts:[] as Post[],
-    adms:[] 
+    adms:[] ,
+    members:[] as User[]
 }
 )
 const useStore = useUserStore()
 const titulo = ref('')
 const texto = ref('')
 const error = ref<Error>()
-const posts = ref([] as Post[])
+
+
+const logged = computed(()=>{
+  return useStore.jwt != (undefined || '') 
+})
 
 async function getComunities() {
     try{
       const { data } = await axios.get(`/communities/${props.id}`,{
         params:{
-          populate:{
-            posts:{
-                populate:'author'
-            }
-        }
+          populate:['posts.author','members.role']
         }
       })
-   
+      
       thisCommunity.value.id = data.data.id
       thisCommunity.value.description = data.data.attributes.description
       thisCommunity.value.name = data.data.attributes.name
-      console.log(data.data.attributes.posts.data)
-      for (let i in data.data.attributes.posts.data){
+    for (let i in data.data.attributes.posts.data){
         const dataPosts = data.data.attributes.posts.data
         const post:Post = {
             id:dataPosts[Number(i)].id,
@@ -51,19 +50,40 @@ async function getComunities() {
             
         }
         thisCommunity.value.posts.push(post)
-      }
-      
-      console.log(thisCommunity.value.posts)
-      
+    }
+
+    for (let i in data.data.attributes.members.data){
+        const dataMembers = data.data.attributes.members.data
+        
+        const member:User = {
+            id:dataMembers[Number(i)].id,
+            email:dataMembers[Number(i)].attributes.email,
+            username:dataMembers[Number(i)].attributes.username,
+            role:{
+                name:useStore.user.role.name    
+            }
+        }
+        thisCommunity.value.members.push(member)
+    }
     }catch(e){
       console.log(e)
     }
 }
 
-const logged = computed(()=>{
-  return useStore.jwt != (undefined || '') 
+const isMember = computed(()=>{
+    if(useStore.jwt != (undefined || '') ){
+        const members = thisCommunity.value.members
+        let i
+        for (i=0; i < members.length; i++){
+            if(_.isEqual(members[i], useStore.user)){
+            return true
+            }
+            return false
+        }
+    }else{
+        return false
+    }
 })
-
 
 
 function addPost() {
@@ -92,7 +112,7 @@ async function enviar() {
         })
         
         const dataPosts = data.data
-        console.log(dataPosts)
+        
         const newPost:Post = {
             id:dataPosts.id,
             title:dataPosts.attributes.title,
@@ -101,12 +121,51 @@ async function enviar() {
             community:thisCommunity.value,
             auth:me.data,
         }
-        console.log(newPost)
+        
         thisCommunity.value.posts.push(newPost)
     }catch(e){
         error.value = e as Error
     }
     adding.value = false
+}
+
+async function entrar(){
+    console.log(thisCommunity.value.members)
+    const me = await axios.get('/users/me',{
+        headers: {
+            Authorization: `Bearer ${useStore.jwt}`
+        }
+    })
+
+    const dataMembers = me.data
+    const member:User = {
+            id:dataMembers.id,
+            email:dataMembers.email,
+            username:dataMembers.username,
+            role:{
+                name:useStore.user.role.name    
+            }
+        }
+    thisCommunity.value.members.push(member)
+    console.log(thisCommunity.value.members)
+
+
+
+    const req = await axios.get(`/communities/${thisCommunity.value.id}`,{
+        params:{
+            populate:'members'
+        }
+    })
+    
+    const newArr = [...req.data.data.attributes.members.data,me.data]
+    const {data} = await axios.put(`/communities/${thisCommunity.value.id}`,{
+            data:{
+                members:newArr      
+            },headers:{
+                Authorization: `Bearer ${useStore.jwt}`
+            }
+        })
+
 }
 
 getComunities()
@@ -118,11 +177,15 @@ Exibir todos os posts de uma comunidade
     <div class="content">
         <main>
             <section class="info">
+                <div v-if="logged">
+                    <h1 id="logged" v-if="isMember">Membro</h1>
+                    <h1 id="notlogged"v-else>Não membro</h1>
+                </div>
                 <h1>{{error}}</h1>
                 <h2>{{ thisCommunity.name }}<span  class="adm" v-for="adm in thisCommunity.adms">  · {{ adm.username }}</span></h2>
                 <h3>{{ thisCommunity.description }}</h3>
             </section>
-            <section v-if="logged" class="add">
+            <section v-if="logged && isMember" class="add">
                 <button @click="addPost" v-if="props.show && !adding">Add Post</button>
                 <form v-if="adding" @submit.prevent="enviar">
                     <div class="field">                  
@@ -137,6 +200,7 @@ Exibir todos os posts de uma comunidade
                     <button @click="adding=false">Cancelar</button>
                 </form>
             </section>
+            <section v-if="logged && !isMember"@click="entrar"><button>Entrar na comunidade</button></section>
             <PostCard v-if="props.show" v-for="post in thisCommunity.posts" :id="post.id" :title = "post.title" :text = "post.text" :time = "post.publishedAt" :auth="post.auth" :community="post.community"></PostCard>
         </main>
     </div>
@@ -177,5 +241,11 @@ form{
 }
 .info h3{
     color: #a8a8a8;
+}
+#logged{
+    color:chartreuse
+}
+#notlogged{
+    color:rgb(244, 94, 121)
 }
 </style>

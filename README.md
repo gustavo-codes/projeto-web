@@ -16,13 +16,12 @@ Gustavo Reginaldo - 536187 - CC
 
 ## :people_holding_hands: Papéis ou tipos de usuário da aplicação
 
-Usuário não logado, usuário logado, admininstrador
+Usuário não logado, usuário logado, admininstrador, membro da comunidade
 
-> Tenha em mente que obrigatoriamente a aplicação deve possuir funcionalidades acessíveis a todos os tipos de usuário e outra funcionalidades restritas a certos tipos de usuários.
 
 ## :spiral_calendar: Entidades ou tabelas do sistema
 
-Usuário, Objetivos, Postagem, Comentário, Tracker, Comunidade, Objetivo Específico
+Usuário, Postagem, Comunidade
 
 ## :triangular_flag_on_post:	 Principais funcionalidades da aplicação
 
@@ -33,7 +32,6 @@ Admininstrado -> Excluir posts, banir usuários, aprovar uma comunidade.
 
 ----
 
-:warning::warning::warning: As informações a seguir devem ser enviadas juntamente com a versão final do projeto. :warning::warning::warning:
 
 
 ----
@@ -54,13 +52,10 @@ Vue.Js
 
 | Entidade| Criação | Leitura | Atualização | Remoção |
 | --- | --- | --- | --- | --- |
-| Usuário | X  | X | X | X |
-| Objetivo | X | X | X | X |
-| Postagem | X | X |  |  |
-| Comentário | X | X |  |  |
-| Tracker | X | X | X |  |
+| Usuário | X  | X |  |  |
+| Postagem | X | X | X | X |
 | Comunidade | X | X | X | X |
-| Objetivo Específico | X | X |  |  |
+
 
 
 
@@ -70,5 +65,9 @@ Vue.Js
 
 | Método HTTP | URL |
 | --- | --- |
-| GET | ? |
-| POST | ? |
+| GET | api/users |
+| POST | api/users/:id |
+| GET | api/communities/ |
+| POST | api/communities/:id |
+| GET | api/posts/ |
+| POST | api/posts/:id |
