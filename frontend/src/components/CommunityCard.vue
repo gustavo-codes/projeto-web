@@ -147,7 +147,7 @@ async function entrar(){
             }
         }
     
-    //thisCommunity.value.members.push(member)
+    thisCommunity.value.members.push(member)
 
     const req = await axios.get(`/communities/${thisCommunity.value.id}`,{
         params:{

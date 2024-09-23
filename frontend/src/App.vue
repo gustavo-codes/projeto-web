@@ -27,6 +27,7 @@ getProfiles()
 
 function logout(){
   userStore.logout()
+  router.push('/')
 }
 
 </script>
