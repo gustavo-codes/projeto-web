@@ -71,15 +71,15 @@ async function getComunities() {
 }
 
 const isMember = computed(()=>{
+    console.log(thisCommunity.value.members)
     if(useStore.jwt != (undefined || '') ){
-        const members = thisCommunity.value.members
         let i
-        for (i=0; i < members.length; i++){
-            if(_.isEqual(members[i], useStore.user)){
-            return true
+        for (i=0; i < thisCommunity.value.members.length; i++){
+            if(_.isEqual(thisCommunity.value.members[i], useStore.user)){
+                return true
             }
-            return false
         }
+        return false
     }else{
         return false
     }
@@ -146,10 +146,8 @@ async function entrar(){
                 name:useStore.user.role.name    
             }
         }
-    thisCommunity.value.members.push(member)
-    console.log(thisCommunity.value.members)
-
-
+    
+    //thisCommunity.value.members.push(member)
 
     const req = await axios.get(`/communities/${thisCommunity.value.id}`,{
         params:{
