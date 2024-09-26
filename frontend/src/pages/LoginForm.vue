@@ -66,40 +66,54 @@ async function autenticate() {
 
 
 <template>
-  <main>
-    <h1 v-if="error">{{ error.message }}</h1>
-    <form @submit.prevent="autenticate">
-        <section> 
-            <label for="email">Email</label>
-            <input id="email" type="text" v-model="ident">
-        </section>
-        <section>  
-            <label for="password">Senha</label>
-            <input id="password" type="password" v-model="pass">
-        </section>
-        <button>Logar</button> 
-    </form>
-  </main>
+    <main>
+        <div class="login">
+            <h1>{{ error }}</h1>
+            <img src="../../public/login_logo.jpg" width=70px alt="logo" class="logo">
+            <form @submit.prevent="autenticate">
+                <!--user name-->
+                <label for="userName">User name:</label>
+                <input type="text" id="userName" name="userName" required  v-model="ident"><br><br>
+                <!--senha-->
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required  v-model="pass"><br><br>
+                <!--enviar-->
+                <input type="submit" value="entrar">
+            </form>
+        </div>
+    </main>
 </template>
 
 <style scoped>
-    main{
-        height: 90vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    form{
-        box-shadow:  0px 0px 10px   #2a1630;
-        border-radius: 10px;
-        background-color: #141414;
-    }
-    section{
-        margin: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-    button{
-        margin: 20px
-    }
+main
+{
+	display:flex;
+	background-color:#6366f1;
+	justify-content: center;
+	align-items: center;
+	height:90vh;
+     width: 100vw;
+}
+
+.login
+{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction:column;
+	width:200px;
+	height:200px;
+}
+
+.logo
+{
+	margin-bottom:10px;
+	margin-left: -32px;
+	justify-content:center;
+}
+
+.login input
+{
+	padding:2px;
+}
 </style>

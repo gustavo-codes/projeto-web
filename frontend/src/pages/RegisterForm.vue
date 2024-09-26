@@ -35,48 +35,60 @@ async function cadastrar() {
 </script>
 
 <template>
-  <main>
-    <h1>{{ error }}</h1>
-    <form @submit.prevent="cadastrar">
-      <section>
-        <label for="user">Nome</label>
-        <input id="user" type="text" v-model="nome">
-      </section>
-      <section>
-        <label for="email">Email</label>
-        <input id="email" type="text" v-model="email">
-      </section>
-      <section>
-        <label for="password">Senha</label>
-        <input id="password" type="password"  v-model="senha">
-      </section>
-      <section>
-        <label for="bio">bio</label>
-        <textarea id="bio" v-model="bio"></textarea>
-      </section>
-        <button>registrar</button> 
-    </form>
-  </main>
+<main>
+  <div class="login">
+     <h1>{{ error }}</h1>
+			<img src="../../public/login_logo.jpg" width=70px alt="logo" class="logo">
+			<form @submit.prevent="cadastrar">
+				<!--E-mail-->
+				<label for="email">E-mail</label>
+				<input type="text" id="email" name="email" required v-model="email"><br><br>
+				<!--User name-->
+				<label for="email">User name:</label>
+				<input type="text" id="userName" name="userName" required v-model="nome"><br><br>
+				<!--senha-->
+				<label for="senha">Senha:</label>
+				<input type="password" id="senha" name="senha" required  v-model="senha"><br><br>
+				<!--re-senha-->
+				<label for="bio">Biografia</label>
+				<input type="text" id="bio" name="bio" required v-model="bio"><br><br>
+				<!--enviar-->
+				<input type="submit" value="Registrar">
+			</form>
+		</div>
+</main>
 </template>
 
 <style scoped>
-    main{
-        height: 90vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    form{
-        box-shadow:  0px 0px 10px   #2a1630;
-        border-radius: 10px;
-        background-color: #141414;
-    }
-    section{
-        margin: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-    button{
-        margin: 20px
-    }
+main
+{
+	display:flex;
+	background-color:#6366f1;
+	justify-content: center;
+	align-items: center;
+	height:90vh;
+  width: 100vw;
+}
+
+.login
+{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction:column;
+	width:200px;
+	height:200px;
+}
+
+.logo
+{
+	margin-bottom:10px;
+	margin-left: -30px;
+	justify-content:center;
+}
+
+.login input
+{
+	padding:2px;
+}
 </style>
