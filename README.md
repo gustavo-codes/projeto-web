@@ -5,11 +5,7 @@ Breve descrição do que o seu projeto faz.
 O "Chronogram" é uma rede social de gerenciamento de tempo que busca ajudar os estudantes a se organizarem de forma ótima através da fixação de metas de estudos e da interação com outros membros da rede.
 
 Você pode entrar em uma comunidade e fazer posts nela. Sem estar logado, é possível apenas ver as postagens.
-## :technologist: Membros da equipe
 
-Gabriel Dias - 540357 - CC 
-
-Gustavo Reginaldo - 536187 - CC
 
 ## :people_holding_hands: Papéis ou tipos de usuário da aplicação
 
